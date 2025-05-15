@@ -2,33 +2,37 @@
 
 ## Overview
 
-This project is a Flutter application designed to manage reminders. It utilizes the BLoC (Business Logic Component) pattern to separate business logic from the UI, making the application more scalable and maintainable.
+This is a simple Flutter app for managing reminders. The code is organized using Clean Architecture and SOLID principles, making it easy to understand and maintain. The app uses the BLoC pattern to handle app logic, `bloc_provider` to connect logic to the UI, and `get_it` for easy dependency management. This setup helps keep the app scalable and easy to update.
 
 ## Project Structure
 
 ```
-iot_app
-├── lib
-│   ├── main.dart
-│   ├── feature
-│   │   └── reminder
-│   │       ├── bloc
-│   │       │   ├── reminder_bloc.dart
-│   │       │   ├── reminder_event.dart
-│   │       │   └── reminder_state.dart
-│   │       ├── data
-│   │       │   ├── models
-│   │       │   │   └── reminder_model.dart
-│   │       │   └── repositories
-│   │       │       └── reminder_repository.dart
-│   │       ├── presentation
-│   │       │   └── pages
-│   │       │       └── iot_home_page.dart
-│   │       └── widgets
-│   │           └── reminder_widget.dart
-│   └── core
-│       └── utils
-│           └── constants.dart
+iot_app/
+├── lib/
+│   ├── core/
+│   │   └── utils.dart
+│   ├── feature/
+│   │   └── reminder/
+│   │       ├── data/
+│   │       │   └── repositories/
+│   │       │       └── medicine_repository_impl.dart
+│   │       ├── domain/
+│   │       │   ├── medicine.dart
+│   │       │   └── repositories/
+│   │       │       └── medicine_repository.dart
+│   │       └── presentation/
+│   │           ├── bloc/
+│   │           │   ├── reminder_bloc.dart
+│   │           │   ├── reminder_event.dart
+│   │           │   └── reminder_state.dart
+│   │           ├── pages/
+│   │           │   ├── iot_home_page.dart
+│   │           │   └── medicine_reminder_page.dart
+│   │           └── widgets/
+│   │               ├── add_medicine_dialog.dart
+│   │               └── medicine_card.dart
+│   ├── init_dependencies.dart
+│   └── main.dart
 ├── pubspec.yaml
 └── README.md
 ```
@@ -36,7 +40,7 @@ iot_app
 ## Features
 
 - Add, remove, and view reminders.
-- Utilizes the BLoC pattern for state management.
+- Uses the BLoC pattern for state management.
 - Responsive UI built with Flutter.
 
 ## Setup Instructions
@@ -60,14 +64,16 @@ iot_app
 
 ## Usage
 
-- Launch the app to view the home page.
-- Use the provided UI to add or remove reminders.
-- The app will display the current list of reminders.
+- Open the app to see the home page.
+- Use the UI to add or remove reminders.
+- The app will show your current reminders.
 
 ## Dependencies
 
 - Flutter SDK
 - flutter_bloc: For state management using the BLoC pattern.
+- bloc_provider: To provide BLoCs to the UI.
+- get_it: For dependency injection.
 
 ## Contributing
 

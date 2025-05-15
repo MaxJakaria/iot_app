@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:iot_app/feature/reminder/presentation/pages/medicine_reminder_page.dart';
 
 class IotHomePage extends StatefulWidget {
+  static route() =>
+      MaterialPageRoute(builder: (context) => const IotHomePage());
+
   const IotHomePage({super.key});
 
   @override
@@ -23,9 +27,11 @@ class _IotHomePageState extends State<IotHomePage> {
         ],
       ),
       body: Center(
-        child: Text(
-          'Welcome to IoT Home Page!',
-          style: TextStyle(fontSize: 24),
+        child: ElevatedButton(
+          onPressed: () {
+            Navigator.push(context, MedicineReminderPage.route());
+          },
+          child: const Text('Medicine Shedule'),
         ),
       ),
     );

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iot_app/feature/reminder/presentation/bloc/reminder_bloc.dart';
 import 'package:iot_app/feature/reminder/presentation/pages/iot_home_page.dart';
+import 'package:iot_app/init_dependencies.dart';
 
-void main() {
+void main() async {
+  await initDependencies();
   runApp(const MyApp());
 }
 
