@@ -1,8 +1,10 @@
 # IoT Reminder App
 
+### 1. [Starting Stage](https://github.com/MaxJakaria/iot_app/tree/0d80d92f67f6200a9bec351e44c83e554272cba2)
+
 ## Overview
 
-This is a simple Flutter app for managing reminders. The code is organized using Clean Architecture and SOLID principles, making it easy to understand and maintain. The app uses the BLoC pattern to handle app logic, `bloc_provider` to connect logic to the UI, and `get_it` for easy dependency management. This setup helps keep the app scalable and easy to update.
+This is a simple Flutter app for managing reminders. The code is organized using Clean Architecture and SOLID principles, making it easy to understand and maintain. The app uses the BLoC pattern to handle app logic, `flutter_bloc` to connect logic to the UI, and `get_it` for easy dependency management. This setup helps keep the app scalable and easy to update.
 
 ## Project Structure
 
@@ -72,7 +74,6 @@ iot_app/
 
 - Flutter SDK
 - flutter_bloc: For state management using the BLoC pattern.
-- bloc_provider: To provide BLoCs to the UI.
 - get_it: For dependency injection.
 
 ## Contributing
