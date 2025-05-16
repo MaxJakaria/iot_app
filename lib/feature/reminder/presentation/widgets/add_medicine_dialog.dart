@@ -27,7 +27,7 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
           TextField(
             controller: timeController,
             decoration: const InputDecoration(
-              labelText: 'Time (e.g. 08:00 AM)',
+              labelText: 'Number of Times to take',
             ),
           ),
         ],

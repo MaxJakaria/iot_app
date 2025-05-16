@@ -6,20 +6,24 @@
 
 This is a simple Flutter app for managing reminders. The code is organized using Clean Architecture and SOLID principles, making it easy to understand and maintain. The app uses the BLoC pattern to handle app logic, `flutter_bloc` to connect logic to the UI, and `get_it` for easy dependency management. This setup helps keep the app scalable and easy to update.
 
+The app can connect to an ESP32 IoT device over WiFi. When you add a reminder, it sends the reminder to the ESP32 using an HTTP POST request.
+
 ## Project Structure
 
 ```
 iot_app/
 ├── lib/
 │   ├── core/
-│   │   └── utils.dart
+│   │   └── API/
+│   │        └── iot_api.dart
 │   ├── feature/
 │   │   └── reminder/
 │   │       ├── data/
 │   │       │   └── repositories/
 │   │       │       └── medicine_repository_impl.dart
 │   │       ├── domain/
-│   │       │   ├── medicine.dart
+│   │       │   ├── entities/
+│   │       │   │   └── medicine.dart
 │   │       │   └── repositories/
 │   │       │       └── medicine_repository.dart
 │   │       └── presentation/
@@ -42,6 +46,7 @@ iot_app/
 ## Features
 
 - Add, remove, and view reminders.
+- Sends reminders to an ESP32 IoT device over WiFi.
 - Uses the BLoC pattern for state management.
 - Responsive UI built with Flutter.
 
@@ -64,10 +69,17 @@ iot_app/
    flutter run
    ```
 
+## IoT Integration
+
+- The app sends reminders to your ESP32 device at `http://192.168.161.176/add_reminder` using an HTTP POST request.
+- Make sure your phone/PC and ESP32 are on the same WiFi network.
+- The ESP32 must be running the compatible firmware to receive and process reminders.
+
 ## Usage
 
 - Open the app to see the home page.
 - Use the UI to add or remove reminders.
+- When you add a reminder, it is also sent to your ESP32 device.
 - The app will show your current reminders.
 
 ## Dependencies
@@ -75,6 +87,7 @@ iot_app/
 - Flutter SDK
 - flutter_bloc: For state management using the BLoC pattern.
 - get_it: For dependency injection.
+- http: For sending reminders to the IoT device.
 
 ## Contributing
 

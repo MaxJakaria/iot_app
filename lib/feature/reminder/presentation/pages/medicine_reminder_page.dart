@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:iot_app/core/API/iot_api.dart';
 import 'package:iot_app/feature/reminder/domain/repositories/medicine_repository.dart';
 import 'package:iot_app/feature/reminder/presentation/widgets/add_medicine_dialog.dart';
 import 'package:iot_app/init_dependencies.dart';
@@ -29,10 +30,22 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
       context: context,
       builder:
           (context) => AddMedicineDialog(
-            onAdd: (name, time) {
+            onAdd: (name, time) async {
               setState(() {
                 repository.addMedicine(Medicine(name: name, time: time));
               });
+
+              // Send to ESP32
+              final success = await IotApi.sendReminder(name, time);
+              if (!success) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text(
+                      'Failed to send reminder to IoT device. Please check your connection.',
+                    ),
+                  ),
+                );
+              }
             },
           ),
     );

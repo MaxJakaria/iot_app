@@ -13,7 +13,7 @@ class MedicineCard extends StatelessWidget {
       child: ListTile(
         leading: const Icon(Icons.medication),
         title: Text(medicine.name),
-        subtitle: Text('Time: ${medicine.time}'),
+        subtitle: Text('Take ${medicine.time} times per day'),
         trailing: IconButton(
           icon: const Icon(Icons.delete, color: Colors.red),
           onPressed: onDelete,
