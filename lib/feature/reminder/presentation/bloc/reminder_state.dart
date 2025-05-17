@@ -4,3 +4,5 @@ part of 'reminder_bloc.dart';
 sealed class ReminderState {}
 
 final class ReminderInitial extends ReminderState {}
+
+class MedicinesLoading extends ReminderState {}

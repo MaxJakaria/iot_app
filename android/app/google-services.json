@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "484483717282",
+    "project_id": "nursing-assistant-ad207",
+    "storage_bucket": "nursing-assistant-ad207.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:484483717282:android:3cfbf363ca0e0ab821dffb",
+        "android_client_info": {
+          "package_name": "com.example.iot_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhK84LA4e0D8eszhJlpFv_xfpteDBrK5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -6,7 +6,8 @@
 
 This is a simple Flutter app for managing reminders. The code is organized using Clean Architecture and SOLID principles, making it easy to understand and maintain. The app uses the BLoC pattern to handle app logic, `flutter_bloc` to connect logic to the UI, and `get_it` for easy dependency management. This setup helps keep the app scalable and easy to update.
 
-The app can connect to an ESP32 IoT device over WiFi. When you add a reminder, it sends the reminder to the ESP32 using an HTTP POST request.
+The app can connect to an ESP32 IoT device over WiFi. When you add a reminder, it sends the reminder to the ESP32 using an HTTP POST request.  
+Now, the app also supports storing reminders in Firebase Cloud Firestore, so your medicine data is safely stored in the cloud and can be accessed from anywhere.
 
 ## Project Structure
 
@@ -47,6 +48,7 @@ iot_app/
 
 - Add, remove, and view reminders.
 - Sends reminders to an ESP32 IoT device over WiFi.
+- Stores reminders in Firebase Cloud Firestore.
 - Uses the BLoC pattern for state management.
 - Responsive UI built with Flutter.
 
@@ -75,12 +77,18 @@ iot_app/
 - Make sure your phone/PC and ESP32 are on the same WiFi network.
 - The ESP32 must be running the compatible firmware to receive and process reminders.
 
+## Firebase Integration
+
+- The app uses Firebase Cloud Firestore to store and sync reminders.
+- Make sure you have set up Firebase for your project and added the `firebase_options.dart` file.
+- Add your Firebase configuration using the FlutterFire CLI.
+
 ## Usage
 
 - Open the app to see the home page.
 - Use the UI to add or remove reminders.
-- When you add a reminder, it is also sent to your ESP32 device.
-- The app will show your current reminders.
+- When you add a reminder, it is also sent to your ESP32 device and stored in Firebase.
+- The app will show your current reminders, synced from the cloud.
 
 ## Dependencies
 
@@ -88,6 +96,8 @@ iot_app/
 - flutter_bloc: For state management using the BLoC pattern.
 - get_it: For dependency injection.
 - http: For sending reminders to the IoT device.
+- firebase_core: For Firebase initialization.
+- cloud_firestore: For storing reminders in Firebase.
 
 ## Contributing
 

@@ -1,11 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iot_app/feature/reminder/presentation/bloc/reminder_bloc.dart';
 import 'package:iot_app/feature/reminder/presentation/pages/iot_home_page.dart';
+import 'package:iot_app/firebase_options.dart';
 import 'package:iot_app/init_dependencies.dart';
 
 void main() async {
   await initDependencies();
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
