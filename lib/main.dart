@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ReminderBloc(),
+      create: (_) => serviceLocator<ReminderBloc>(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flutter Demo',
