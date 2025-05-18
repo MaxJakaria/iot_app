@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:iot_app/core/API/iot_api.dart';
 import 'package:iot_app/feature/reminder/domain/repositories/medicine_repository.dart';
@@ -33,6 +34,13 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
             onAdd: (name, time) async {
               setState(() {
                 repository.addMedicine(Medicine(name: name, time: time));
+              });
+
+              // Push to Firestore: 'medicines' collection, doc ID = medicine name
+              final firestore = FirebaseFirestore.instance;
+              await firestore.collection('medicines').doc(name).set({
+                'name': name,
+                'time': time.toString(), // Format as needed
               });
 
               // Send to ESP32

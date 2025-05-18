@@ -5,9 +5,7 @@ import 'package:iot_app/feature/reminder/domain/repositories/medicine_repository
 final serviceLocator = GetIt.instance;
 
 Future<void> initDependencies() async {
-  serviceLocator
-    ..registerLazySingleton<MedicineRepositoryImpl>(
-      () => MedicineRepositoryImpl(),
-    )
-    ..registerLazySingleton<MedicineRepository>(() => MedicineRepositoryImpl());
+  serviceLocator.registerLazySingleton<MedicineRepository>(
+    () => MedicineRepositoryImpl(),
+  );
 }
