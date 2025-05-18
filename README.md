@@ -6,17 +6,20 @@
 
 ### 3. [With firebase](https://github.com/MaxJakaria/iot_app/tree/33b8b36396f6e7c899becdff12e6025f9a630289)
 
+### 4. Data Exchange (store, retrive)
+
 ## Overview
 
 This Flutter app helps you manage medicine reminders. It follows Clean Architecture and SOLID principles for maintainability and scalability. The app uses the BLoC pattern (`flutter_bloc`) for state management and `get_it` for dependency injection.
 
-**Now, medicine reminders are uploaded to Firebase Cloud Firestore using Clean Architecture.**  
+**Medicine reminders are uploaded to Firebase Cloud Firestore using Clean Architecture.**  
 All Firestore logic is abstracted away from the UI and handled through the data source and repository layers for better maintainability and testability.
 
 When you add a reminder, the app:
 
 - Sends the reminder to an ESP32 IoT device over WiFi via HTTP POST.
 - Stores the reminder in Firebase Cloud Firestore for cloud backup and sync.
+- Retrieves reminders directly from Firestore and displays them in the app (no local list is used).
 
 ## Project Structure
 
@@ -59,9 +62,9 @@ iot_app/
 
 ## Features
 
-- Add, remove, and view medicine reminders.
+- Add and view medicine reminders.
 - Sends reminders to an ESP32 IoT device over WiFi.
-- Stores reminders in Firebase Cloud Firestore using Clean Architecture.
+- Stores and retrieves reminders in Firebase Cloud Firestore using Clean Architecture.
 - Uses the BLoC pattern for state management.
 - Responsive UI built with Flutter.
 
@@ -113,9 +116,9 @@ iot_app/
 ## Usage
 
 - Open the app to see the home page.
-- Use the UI to add or remove medicine reminders.
+- Use the UI to add medicine reminders.
 - When you add a reminder, it is sent to your ESP32 device and stored in Firebase.
-- The app displays your current reminders, synced from the cloud.
+- The app displays your current reminders, synced from the cloud in real time.
 
 ## Dependencies
 

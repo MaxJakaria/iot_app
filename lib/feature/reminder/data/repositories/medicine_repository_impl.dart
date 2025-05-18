@@ -5,23 +5,9 @@ import 'package:iot_app/feature/reminder/domain/entities/medicine.dart';
 import 'package:iot_app/feature/reminder/domain/repositories/medicine_repository.dart';
 
 class MedicineRepositoryImpl implements MedicineRepository {
-  final List<Medicine> _medicines = [];
   final MedicineRemoteDataSource remoteDataSource;
 
   MedicineRepositoryImpl({required this.remoteDataSource});
-
-  @override
-  List<Medicine> getMedicines() => List.unmodifiable(_medicines);
-
-  @override
-  void addMedicine(Medicine medicine) {
-    _medicines.add(medicine);
-  }
-
-  @override
-  void removeMedicine(Medicine medicine) {
-    _medicines.remove(medicine);
-  }
 
   @override
   Future<Either<Exception, Medicine>> uploadMedicine({
@@ -35,5 +21,18 @@ class MedicineRepositoryImpl implements MedicineRepository {
     } catch (e) {
       return left(Exception(e.toString()));
     }
+  }
+
+  @override
+  Stream<List<Medicine>> watchMedicines() {
+    return remoteDataSource.watchMedicines().map(
+      (medicines) =>
+          medicines
+              .map(
+                (medicine) =>
+                    Medicine(name: medicine.name, time: medicine.time),
+              )
+              .toList(),
+    );
   }
 }

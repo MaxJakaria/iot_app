@@ -3,6 +3,7 @@ import 'package:iot_app/feature/reminder/data/Model/medicine_model.dart';
 
 abstract class MedicineRemoteDataSource {
   Future<MedicineModel> medicineUpload(MedicineModel medicine);
+  Stream<List<MedicineModel>> watchMedicines();
 }
 
 class MedicineRemoteDataSourceImpl implements MedicineRemoteDataSource {
@@ -21,5 +22,18 @@ class MedicineRemoteDataSourceImpl implements MedicineRemoteDataSource {
     } catch (e) {
       throw Exception(e.toString());
     }
+  }
+
+  @override
+  Stream<List<MedicineModel>> watchMedicines() {
+    return firebase
+        .collection('Medicines')
+        .snapshots()
+        .map(
+          (snapshot) =>
+              snapshot.docs
+                  .map((doc) => MedicineModel.fromJson(doc.data()))
+                  .toList(),
+        );
   }
 }

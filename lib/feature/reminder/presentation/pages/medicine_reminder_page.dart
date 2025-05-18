@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iot_app/core/API/iot_api.dart';
@@ -34,17 +33,6 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
       builder:
           (context) => AddMedicineDialog(
             onAdd: (name, time) async {
-              setState(() {
-                repository.addMedicine(Medicine(name: name, time: time));
-              });
-
-              // Push to Firestore: 'medicines' collection, doc ID = medicine name
-              // final firestore = FirebaseFirestore.instance;
-              // await firestore.collection('medicines').doc(name).set({
-              //   'name': name,
-              //   'time': time.toString(), // Format as needed
-              // });
-
               // Upload to Firestore
               context.read<ReminderBloc>().add(
                 UploadMedicineEvent(name: name, time: time),
@@ -68,8 +56,6 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
 
   @override
   Widget build(BuildContext context) {
-    final medicines = repository.getMedicines();
-
     return BlocListener<ReminderBloc, ReminderState>(
       listener: (context, state) {
         if (state is ReminderSuccess) {
@@ -89,16 +75,15 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
           child: Column(
             children: [
               Expanded(
-                child: ListView.builder(
-                  itemCount: medicines.length,
-                  itemBuilder: (context, index) {
-                    final medicine = medicines[index];
-                    return MedicineCard(
-                      medicine: medicine,
-                      onDelete: () {
-                        setState(() {
-                          repository.removeMedicine(medicine);
-                        });
+                child: StreamBuilder<List<Medicine>>(
+                  stream: repository.watchMedicines(),
+                  builder: (context, snapshot) {
+                    final medicines = snapshot.data ?? [];
+                    return ListView.builder(
+                      itemCount: medicines.length,
+                      itemBuilder: (context, index) {
+                        final medicine = medicines[index];
+                        return MedicineCard(medicine: medicine);
                       },
                     );
                   },
