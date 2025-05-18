@@ -2,6 +2,10 @@
 
 ### 1. [Starting Stage](https://github.com/MaxJakaria/iot_app/tree/0d80d92f67f6200a9bec351e44c83e554272cba2)
 
+### 2. [Connect hardware using http server](https://github.com/MaxJakaria/iot_app/tree/14d29609c9fb0915be6984ffcc1faa2c0c4b2752)
+
+### 3. [With firebase](https://github.com/MaxJakaria/iot_app/tree/33b8b36396f6e7c899becdff12e6025f9a630289)
+
 ## Overview
 
 This Flutter app helps you manage medicine reminders. It follows Clean Architecture and SOLID principles for maintainability and scalability. The app uses the BLoC pattern (`flutter_bloc`) for state management and `get_it` for dependency injection.
