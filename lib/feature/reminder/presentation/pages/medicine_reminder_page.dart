@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iot_app/core/API/iot_api.dart';
-import 'package:iot_app/feature/reminder/domain/repositories/medicine_repository.dart';
+import 'package:iot_app/core/common/snackbar.dart';
 import 'package:iot_app/feature/reminder/presentation/bloc/reminder_bloc.dart';
 import 'package:iot_app/feature/reminder/presentation/widgets/add_medicine_dialog.dart';
-import 'package:iot_app/init_dependencies.dart';
-import '../../domain/entities/medicine.dart';
-import '../widgets/medicine_card.dart';
+import 'package:iot_app/feature/reminder/presentation/widgets/medicine_list.dart';
 
 class MedicineReminderPage extends StatefulWidget {
   static route() =>
@@ -19,12 +17,13 @@ class MedicineReminderPage extends StatefulWidget {
 }
 
 class _MedicineReminderPageState extends State<MedicineReminderPage> {
-  late final MedicineRepository repository;
-
   @override
   void initState() {
     super.initState();
-    repository = serviceLocator<MedicineRepository>();
+    // Start watching medicines via BLoC
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<ReminderBloc>().add(WatchMedicinesEvent());
+    });
   }
 
   void _showAddMedicineDialog() async {
@@ -33,7 +32,7 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
       builder:
           (context) => AddMedicineDialog(
             onAdd: (name, time) async {
-              // Upload to Firestore
+              // Upload to Firestore via BLoC
               context.read<ReminderBloc>().add(
                 UploadMedicineEvent(name: name, time: time),
               );
@@ -41,12 +40,10 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
               // Send to ESP32
               final success = await IotApi.sendReminder(name, time);
               if (!success) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text(
-                      'Failed to send reminder to IoT device. Please check your connection.',
-                    ),
-                  ),
+                snackBar(
+                  context,
+                  'Failed to send reminder to IoT device. Please check your connection.',
+                  isError: true,
                 );
               }
             },
@@ -59,13 +56,9 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
     return BlocListener<ReminderBloc, ReminderState>(
       listener: (context, state) {
         if (state is ReminderSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Reminder uploaded to Firestore!')),
-          );
+          snackBar(context, 'Reminder uploaded to Firestore!');
         } else if (state is ReminderFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Upload failed: ${state.message}')),
-          );
+          snackBar(context, 'Upload failed: ${state.message}', isError: true);
         }
       },
       child: Scaffold(
@@ -74,21 +67,7 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: [
-              Expanded(
-                child: StreamBuilder<List<Medicine>>(
-                  stream: repository.watchMedicines(),
-                  builder: (context, snapshot) {
-                    final medicines = snapshot.data ?? [];
-                    return ListView.builder(
-                      itemCount: medicines.length,
-                      itemBuilder: (context, index) {
-                        final medicine = medicines[index];
-                        return MedicineCard(medicine: medicine);
-                      },
-                    );
-                  },
-                ),
-              ),
+              const Expanded(child: MedicineList()),
               const SizedBox(height: 16),
               SizedBox(
                 width: double.infinity,

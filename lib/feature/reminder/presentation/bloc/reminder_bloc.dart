@@ -13,7 +13,7 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
   ReminderBloc(this.repository) : super(ReminderInitial()) {
     on<UploadMedicineEvent>((event, emit) async {
       // Simulate a delay for the upload process
-      emit(ReminderUploading());
+      emit(ReminderLoading());
       final result = await repository.uploadMedicine(
         name: event.name,
         time: event.time,
@@ -22,6 +22,14 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
       result.fold(
         (l) => emit(ReminderFailure(message: l.toString())),
         (r) => emit(ReminderSuccess(medicine: r)),
+      );
+    });
+
+    on<WatchMedicinesEvent>((event, emit) async {
+      emit.forEach<List<Medicine>>(
+        repository.watchMedicines(),
+        onData: (medicines) => MedicinesLoaded(medicines),
+        onError: (error, _) => ReminderFailure(message: error.toString()),
       );
     });
   }

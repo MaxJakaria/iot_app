@@ -9,3 +9,5 @@ class UploadMedicineEvent extends ReminderEvent {
 
   UploadMedicineEvent({required this.name, required this.time});
 }
+
+class WatchMedicinesEvent extends ReminderEvent {}
