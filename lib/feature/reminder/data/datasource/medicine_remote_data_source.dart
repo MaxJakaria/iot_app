@@ -4,6 +4,7 @@ import 'package:iot_app/feature/reminder/data/Model/medicine_model.dart';
 abstract class MedicineRemoteDataSource {
   Future<MedicineModel> medicineUpload(MedicineModel medicine);
   Stream<List<MedicineModel>> watchMedicines();
+  Future<void> removeMedicine(String name);
 }
 
 class MedicineRemoteDataSourceImpl implements MedicineRemoteDataSource {
@@ -35,5 +36,10 @@ class MedicineRemoteDataSourceImpl implements MedicineRemoteDataSource {
                   .map((doc) => MedicineModel.fromJson(doc.data()))
                   .toList(),
         );
+  }
+
+  @override
+  Future<void> removeMedicine(String name) async {
+    await firebase.collection('Medicines').doc(name).delete();
   }
 }

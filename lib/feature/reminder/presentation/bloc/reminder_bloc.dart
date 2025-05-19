@@ -21,15 +21,24 @@ class ReminderBloc extends Bloc<ReminderEvent, ReminderState> {
 
       result.fold(
         (l) => emit(ReminderFailure(message: l.toString())),
-        (r) => emit(ReminderSuccess(medicine: r)),
+        (r) => null,
       );
     });
 
     on<WatchMedicinesEvent>((event, emit) async {
+      emit(ReminderLoading());
       emit.forEach<List<Medicine>>(
         repository.watchMedicines(),
         onData: (medicines) => MedicinesLoaded(medicines),
         onError: (error, _) => ReminderFailure(message: error.toString()),
+      );
+    });
+
+    on<RemoveMedicineEvent>((event, emit) async {
+      final result = await repository.removeMedicine(name: event.name);
+      result.fold(
+        (l) => emit(ReminderFailure(message: l.toString())),
+        (r) => null,
       );
     });
   }

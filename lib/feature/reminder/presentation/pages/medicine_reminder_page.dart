@@ -55,14 +55,16 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
   Widget build(BuildContext context) {
     return BlocListener<ReminderBloc, ReminderState>(
       listener: (context, state) {
-        if (state is ReminderSuccess) {
-          snackBar(context, 'Reminder uploaded to Firestore!');
-        } else if (state is ReminderFailure) {
-          snackBar(context, 'Upload failed: ${state.message}', isError: true);
+        if (state is ReminderFailure) {
+          snackBar(
+            context,
+            'Operation failed: ${state.message}',
+            isError: true,
+          );
         }
       },
       child: Scaffold(
-        appBar: AppBar(title: const Text('Medicine Reminders')),
+        appBar: AppBar(title: const Text('Medicine List')),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(

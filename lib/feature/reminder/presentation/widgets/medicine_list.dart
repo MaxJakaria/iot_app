@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:iot_app/core/common/snackbar.dart';
 import '../bloc/reminder_bloc.dart';
 import 'medicine_card.dart';
 
@@ -21,12 +20,17 @@ class MedicineList extends StatelessWidget {
           return ListView.builder(
             itemCount: state.medicines.length,
             itemBuilder:
-                (context, i) => MedicineCard(medicine: state.medicines[i]),
+                (context, i) => MedicineCard(
+                  medicine: state.medicines[i],
+                  onDelete: () {
+                    context.read<ReminderBloc>().add(
+                      RemoveMedicineEvent(name: state.medicines[i].name),
+                    );
+                  },
+                ),
           );
         }
-        if (state is ReminderFailure) {
-          snackBar(context, 'Upload failed: ${state.message}');
-        }
+
         return const SizedBox.shrink();
       },
     );

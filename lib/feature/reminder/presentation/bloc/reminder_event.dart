@@ -11,3 +11,8 @@ class UploadMedicineEvent extends ReminderEvent {
 }
 
 class WatchMedicinesEvent extends ReminderEvent {}
+
+class RemoveMedicineEvent extends ReminderEvent {
+  final String name;
+  RemoveMedicineEvent({required this.name});
+}

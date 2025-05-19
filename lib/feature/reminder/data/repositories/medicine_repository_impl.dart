@@ -35,4 +35,14 @@ class MedicineRepositoryImpl implements MedicineRepository {
               .toList(),
     );
   }
+
+  @override
+  Future<Either<Exception, void>> removeMedicine({required String name}) async {
+    try {
+      await remoteDataSource.removeMedicine(name);
+      return right(null);
+    } catch (e) {
+      return left(Exception(e.toString()));
+    }
+  }
 }
