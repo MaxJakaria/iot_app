@@ -31,10 +31,10 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
       context: context,
       builder:
           (context) => AddMedicineDialog(
-            onAdd: (name, time) async {
+            onAdd: (name, time, day) async {
               // Upload to Firestore via BLoC
               context.read<ReminderBloc>().add(
-                UploadMedicineEvent(name: name, time: time),
+                UploadMedicineEvent(name: name, time: time, day: day),
               );
 
               // Send to ESP32
@@ -53,35 +53,33 @@ class _MedicineReminderPageState extends State<MedicineReminderPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ReminderBloc, ReminderState>(
-      listener: (context, state) {
-        if (state is ReminderFailure) {
-          snackBar(
-            context,
-            'Operation failed: ${state.message}',
-            isError: true,
-          );
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(title: const Text('Medicine List')),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const Expanded(child: MedicineList()),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  icon: const Icon(Icons.add),
-                  label: const Text('Add Reminder'),
-                  onPressed: _showAddMedicineDialog,
+    return Scaffold(
+      appBar: AppBar(title: const Text('Medicine List')),
+      body: BlocConsumer<ReminderBloc, ReminderState>(
+        listener: (context, state) {
+          if (state is ReminderFailure) {
+            snackBar(context, state.message);
+          }
+        },
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                const Expanded(child: MedicineList()),
+                const SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton.icon(
+                    icon: const Icon(Icons.add),
+                    label: const Text('Add Reminder'),
+                    onPressed: _showAddMedicineDialog,
+                  ),
                 ),
-              ),
-            ],
-          ),
-        ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

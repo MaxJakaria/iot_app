@@ -13,9 +13,10 @@ class MedicineRepositoryImpl implements MedicineRepository {
   Future<Either<Exception, Medicine>> uploadMedicine({
     required String name,
     required String time,
+    required String day,
   }) async {
     try {
-      final model = MedicineModel(name: name, time: time);
+      final model = MedicineModel(name: name, time: time, day: day);
       final uploaded = await remoteDataSource.medicineUpload(model);
       return right(uploaded);
     } catch (e) {
@@ -29,8 +30,11 @@ class MedicineRepositoryImpl implements MedicineRepository {
       (medicines) =>
           medicines
               .map(
-                (medicine) =>
-                    Medicine(name: medicine.name, time: medicine.time),
+                (medicine) => Medicine(
+                  name: medicine.name,
+                  time: medicine.time,
+                  day: medicine.day,
+                ),
               )
               .toList(),
     );

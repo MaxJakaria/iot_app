@@ -4,34 +4,67 @@ import '../bloc/reminder_bloc.dart';
 import 'medicine_card.dart';
 
 class MedicineList extends StatelessWidget {
-  const MedicineList({super.key});
+  final bool showLoading;
+  final Widget? emptyState;
+  final Widget? errorState;
+
+  const MedicineList({
+    super.key,
+    this.showLoading = true,
+    this.emptyState,
+    this.errorState,
+  });
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ReminderBloc, ReminderState>(
       builder: (context, state) {
-        if (state is ReminderLoading) {
+        // Loading state
+        if (state is ReminderLoading && showLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (state is MedicinesLoaded) {
+
+        // Display list
+        if (state is ReminderDisplaySuccess) {
           if (state.medicines.isEmpty) {
-            return const Center(child: Text('No medicines found.'));
+            return emptyState ??
+                const Center(child: Text('No medicines found.'));
           }
           return ListView.builder(
             itemCount: state.medicines.length,
-            itemBuilder:
-                (context, i) => MedicineCard(
-                  medicine: state.medicines[i],
-                  onDelete: () {
-                    context.read<ReminderBloc>().add(
-                      RemoveMedicineEvent(name: state.medicines[i].name),
-                    );
-                  },
-                ),
+            itemBuilder: (context, i) {
+              final medicine = state.medicines[i];
+              return MedicineCard(
+                medicine: medicine,
+                onDelete: () {
+                  context.read<ReminderBloc>().add(
+                    RemoveMedicineEvent(name: medicine.name),
+                  );
+                },
+              );
+            },
           );
         }
 
-        return const SizedBox.shrink();
+        // Handle success states by showing a loader or just an empty container
+        if (state is ReminderUploadSuccess || state is ReminderRemoveSuccess) {
+          // Option 1: show loader while stream updates
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        // Error or failure
+        if (state is ReminderFailure) {
+          return errorState ??
+              Center(
+                child: Text(
+                  'Failed: ${state.message}',
+                  style: const TextStyle(color: Colors.red),
+                ),
+              );
+        }
+
+        // Default fallback
+        return const Center(child: Text('No data or unexpected state.'));
       },
     );
   }

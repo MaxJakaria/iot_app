@@ -6,8 +6,12 @@ sealed class ReminderEvent {}
 class UploadMedicineEvent extends ReminderEvent {
   final String name;
   final String time;
-
-  UploadMedicineEvent({required this.name, required this.time});
+  final String day;
+  UploadMedicineEvent({
+    required this.name,
+    required this.time,
+    required this.day,
+  });
 }
 
 class WatchMedicinesEvent extends ReminderEvent {}

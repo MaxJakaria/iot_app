@@ -5,6 +5,7 @@ abstract interface class MedicineRepository {
   Future<Either<Exception, Medicine>> uploadMedicine({
     required String name,
     required String time,
+    required String day,
   });
 
   Stream<List<Medicine>> watchMedicines();

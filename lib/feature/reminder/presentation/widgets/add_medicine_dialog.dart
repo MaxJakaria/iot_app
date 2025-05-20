@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AddMedicineDialog extends StatefulWidget {
-  final void Function(String name, String time) onAdd;
+  final void Function(String name, String time, String day) onAdd;
 
   const AddMedicineDialog({super.key, required this.onAdd});
 
@@ -12,6 +12,7 @@ class AddMedicineDialog extends StatefulWidget {
 class _AddMedicineDialogState extends State<AddMedicineDialog> {
   final nameController = TextEditingController();
   final timeController = TextEditingController();
+  final dayController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,10 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
               labelText: 'Number of Times to take',
             ),
           ),
+          TextField(
+            controller: dayController,
+            decoration: const InputDecoration(labelText: 'Days to take'),
+          ),
         ],
       ),
       actions: [
@@ -40,8 +45,13 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
         ElevatedButton(
           onPressed: () {
             if (nameController.text.isNotEmpty &&
-                timeController.text.isNotEmpty) {
-              widget.onAdd(nameController.text, timeController.text);
+                timeController.text.isNotEmpty &&
+                dayController.text.isNotEmpty) {
+              widget.onAdd(
+                nameController.text,
+                timeController.text,
+                dayController.text,
+              );
               Navigator.pop(context);
             }
           },
